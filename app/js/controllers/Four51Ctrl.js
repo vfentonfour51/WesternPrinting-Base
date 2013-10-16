@@ -1,4 +1,4 @@
-four51.app.controller('Four51Ctrl', function ($scope, $routeParams, $location, $451, User, Order, Security, OrderConfig, Category, SpendingAccount, fileReader) {
+four51.app.controller('Four51Ctrl', function ($scope, $routeParams, $location, $451, User, Order, Security, OrderConfig, Category, SpendingAccount, geolocation) {
     $scope.scroll = 0;
     $scope.appname = $451.appname;
 	$scope.Four51User = Security;
@@ -46,5 +46,9 @@ four51.app.controller('Four51Ctrl', function ($scope, $routeParams, $location, $
 	$scope.$on("$routeChangeSuccess", init);
     $scope.$on('event:auth-loginRequired', cleanup);
 
+	geolocation.getCurrentPosition(function(position) {
+		$scope.latitude = position.coords.latitude;
+		alert(position.coords.latitude);
+	}, function() { return; }, null);
 });
 

@@ -43,11 +43,8 @@ four51.app.factory('User', function($q, $rootScope, $resource, $451, Security) {
     var _login = function(credentials,success) {
 	    store.clear();
         $resource($451.api('login')).get(credentials).$promise.then(function(u) {
-	        alert(u.FirstName);
             _then(success,u);
-        }).catch(function(ex) {
-			alert(ex);
-	    });
+        });
     }
 
     var _logout = function() {

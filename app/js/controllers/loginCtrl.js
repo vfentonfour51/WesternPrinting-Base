@@ -7,6 +7,7 @@ four51.app.controller('LoginCtrl', function LoginCtrl($scope, $route, User) {
 	});
 
 	$scope.login = function() {
+		alert(this.credentials.Username);
 		User.login(this.credentials);
 	};
 });

@@ -1,4 +1,4 @@
-four51.app.controller('Four51Ctrl', function ($scope, $routeParams, $location, $451, User, Order, Security, OrderConfig, Category, SpendingAccount, geolocation) {
+four51.app.controller('Four51Ctrl', function ($scope, $routeParams, $location, $451, User, Order, Security, OrderConfig, Category, SpendingAccount, geolocation, camera) {
     $scope.scroll = 0;
     $scope.appname = $451.appname;
 	$scope.Four51User = Security;
@@ -46,9 +46,30 @@ four51.app.controller('Four51Ctrl', function ($scope, $routeParams, $location, $
 	$scope.$on("$routeChangeSuccess", init);
     $scope.$on('event:auth-loginRequired', cleanup);
 
-	geolocation.getCurrentPosition(function(position) {
-		$scope.latitude = position.coords.latitude;
-		alert(position.coords.latitude);
-	}, function() { return; }, null);
+	$scope.msg = "Connecting to device...";
+	$scope.api = $451.api('');
+
+	geolocation.getCurrentPosition(
+		function(position) {
+			$scope.msg = position.coords.latitude + '<br />' + position.coords.longitude;
+		},
+		function(error) {
+			$scope.msg = 'error code: ' + error.code + '<br />message: ' + error.message;
+		},
+		null
+	);
+
+	$scope.getPic = function() {
+		$scope.msg = 'Should launch camera';
+		camera.loadCamera(
+			function(image) {
+				$scope.taken = image;
+			},
+			function(error) {
+				$scope.msg = 'camera error ' + error.code + '<br />message: ' + error.message;
+			},
+			{}
+		);
+	};
 });
 
